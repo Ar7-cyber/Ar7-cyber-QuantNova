@@ -1012,10 +1012,7 @@ function fromApiBacktest(response: ApiBacktestResponse): BacktestResult {
     winRate: response.summary.win_rate,
     maxDrawdown: response.summary.max_drawdown,
     finalEquity: response.summary.final_equity,
-    sharpeRatio:
-      response.stats?.sharpe_ratio ??
-      response.summary.sharpe_ratio ??
-      0,
+    sharpeRatio: response.stats?.sharpe_ratio ?? response.summary.sharpe_ratio ?? 0,
     trades: response.trades.map((trade) => ({
       entryDate: trade.entry_time,
       exitDate: trade.exit_time,

@@ -19,7 +19,7 @@ describe('moving average crossover backtest', () => {
       longPeriod: 4,
       initialCash: 1000,
     });
-    
+
     expect(result.totalTrades).toBe(1);
     expect(result.trades[0]).toMatchObject({
       entryDate: '2024-01-05',
