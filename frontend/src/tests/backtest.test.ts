@@ -19,7 +19,7 @@ describe('moving average crossover backtest', () => {
       longPeriod: 4,
       initialCash: 1000,
     });
-
+    
     expect(result.totalTrades).toBe(1);
     expect(result.trades[0]).toMatchObject({
       entryDate: '2024-01-05',
@@ -29,6 +29,15 @@ describe('moving average crossover backtest', () => {
       profit: 0,
     });
     expect(result.finalEquity).toBe(1000);
+  });
+
+  it('calculates sharpe ratio for fallback backtest', () => {
+    const result = runMovingAverageCrossoverBacktest(candles, {
+      shortPeriod: 2,
+      longPeriod: 4,
+      initialCash: 1000,
+    });
+    expect(result.sharpeRatio).toBeTypeOf('number');
   });
 
   it('requires the short period to be less than the long period', () => {
