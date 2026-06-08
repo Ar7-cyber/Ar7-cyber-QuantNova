@@ -71,7 +71,6 @@ export function calculateRsi(values: number[], period = 14): NullableNumber[] {
   return result;
 }
 
-
 export function calculateAtr(
   highs: number[],
   lows: number[],
@@ -80,10 +79,7 @@ export function calculateAtr(
 ): NullableNumber[] {
   validatePeriod(period);
 
-  if (
-    highs.length !== lows.length ||
-    highs.length !== closes.length
-  ) {
+  if (highs.length !== lows.length || highs.length !== closes.length) {
     throw new Error('High, low, and close arrays must have the same length.');
   }
 
@@ -101,33 +97,25 @@ export function calculateAtr(
     const highPrevClose = Math.abs(highs[i] - closes[i - 1]);
     const lowPrevClose = Math.abs(lows[i] - closes[i - 1]);
 
-    trueRanges.push(
-      Math.max(highLow, highPrevClose, lowPrevClose),
-    );
+    trueRanges.push(Math.max(highLow, highPrevClose, lowPrevClose));
   }
 
-  
   const atr: NullableNumber[] = Array(highs.length).fill(null);
 
   if (trueRanges.length < period) return atr;
 
-  let previousAtr =
-    trueRanges.slice(0, period).reduce((sum, tr) => sum + tr, 0) /
-    period;
+  let previousAtr = trueRanges.slice(0, period).reduce((sum, tr) => sum + tr, 0) / period;
 
   atr[period - 1] = round(previousAtr);
 
   for (let i = period; i < trueRanges.length; i += 1) {
-    previousAtr =
-      ((previousAtr * (period - 1)) + trueRanges[i]) /
-      period;
+    previousAtr = (previousAtr * (period - 1) + trueRanges[i]) / period;
 
     atr[i] = round(previousAtr);
   }
 
   return atr;
 }
-
 
 export function calculateBollingerBands(
   values: number[],
